@@ -6,7 +6,13 @@
   }
 </script>
 
-<div id="app">{{ message }}</div>
+<div id="app">
+    <h1>The unsecure news page</h1>
+    <div v-for="article in articles" style="margin-bottom: 12px">
+        <h2>{{ article.headline }}</h2>
+        <p>{{ article.content }}</p>
+    </div>
+</div>
 
 <script type="module">
   import { createApp } from 'vue'
@@ -14,8 +20,13 @@
   createApp({
     data() {
       return {
-        message: 'Hello Vue!'
+        articles: null,
       }
+    },
+    created() {
+        fetch('/api/v1/articles')
+            .then((response) => response.json())
+            .then((data) => {this.articles = data})
     }
   }).mount('#app')
 </script>
