@@ -8,9 +8,12 @@
 
 <div id="app">
     <h1>The unsecure news page</h1>
-    <div v-for="article in articles" style="margin-bottom: 12px">
+    <div v-if="article !== null" style="margin-bottom: 12px">
         <h2>{{ article.headline }}</h2>
         <p>{{ article.content }}</p>
+    </div>
+    <div v-else>
+        Loading ...
     </div>
 </div>
 
@@ -20,13 +23,13 @@
   createApp({
     data() {
       return {
-        articles: null,
+        article: null,
       }
     },
     created() {
-        fetch('/api/v1/articles')
+        fetch('/api/v1/articles/1/')
             .then((response) => response.json())
-            .then((data) => {this.articles = data})
+            .then((data) => {this.article = data})
     }
   }).mount('#app')
 </script>
